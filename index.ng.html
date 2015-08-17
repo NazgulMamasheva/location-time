@@ -1,0 +1,47 @@
+<div ng-controller="ctrl" class="container">
+	<br>
+	  <form class="form" role="form" name="location_time_form">
+		<div class="form-group">
+		  <label for="time_zone">Time Zone</label>
+		  <input type="text" 
+				 name="input_time_zone"
+				 class="form-control" 
+				 ng-model="input_time_zone" 
+				 placeholder="Enter time zone. Example: -03:00"
+				 ng-pattern="/^(([+-](0[0-9]|1[0-2]):(00|30|45))|(([+](13|14)):00))$/"
+				 required />
+			<span style="color:red" ng-show="location_time_form.input_time_zone.$dirty && location_time_form.input_time_zone.$invalid">
+			<span class="error" ng-show="location_time_form.input_time_zone.$error.required">* This field is required</span>
+			<span class="error" ng-show="location_time_form.input_time_zone.$error.pattern">* Please, enter your time zone in +/-hh:mm. Available hh: +/-00-12, +13, +14; mm: 00, 30, 45. Ex: +12:45</span>
+			</span>
+		</div>
+		<div class="form-group">
+		  <label for="location">City name</label>
+		  <input type="text" 
+				 name="input_location"
+				 class="form-control" 
+				 ng-model="input_location" 
+				 placeholder="Enter city name. Example: Moscow"
+				 required />
+			<span style="color:red" ng-show="location_time_form.input_location.$dirty && location_time_form.input_location.$invalid">
+			<span class="error" ng-show="location_time_form.input_location.$error.required">* This field is required</span>
+			</span>
+		</div>
+		<button class="btn btn-success" ng-disabled="location_time_form.$invalid" ng-click="save()"><span class="glyphicon glyphicon-plus"></span> Add time zone</button>
+	  </form>
+	  
+		<br>
+		  <label for="search">Search</label>
+		  <input ng-model="search_text" class="form-control">
+		<br>
+		
+        <div class="col-sm-4" ng-repeat="element in location_time | filter: search_text">
+			<br>
+			<p>Current local time: {{convert_to_time(element.time_zone) | date:"yyyy-MM-dd HH:mm:ss"}}</p>
+			<p>Time zone: {{element.time_zone}}</p>
+			<p>Location name: {{element.location}}</p>
+            <p><button class="btn btn-default" ng-click="edit(element)" ><span class="glyphicon glyphicon-edit"></span> Edit</button>
+			<button class="btn btn-danger" ng-click="remove(element)" ><span class="glyphicon glyphicon-trash"></span> Delete</button></p>
+		</div>
+</div>
+
